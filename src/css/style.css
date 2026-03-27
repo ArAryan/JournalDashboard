@@ -15,7 +15,7 @@
 }
 
 @layer base {
-    body { @apply bg-slate-50 text-slate-900 antialiased font-sans; }
+    body { @apply bg-slate-50 text-slate-900 antialiased font-['Outfit',sans-serif]; }
     h1 { @apply text-4xl font-bold tracking-tight text-slate-900 mb-6; }
     h2 { @apply text-2xl font-bold text-slate-800 mb-4; }
     h3 { @apply text-xl font-bold text-slate-800 mb-3; }
@@ -23,6 +23,11 @@
     a  { @apply transition-all duration-300; }
 }
 /* END: Global Design System & Variables */
+
+/* Custom Utilities for Premium Look */
+.ui-glassmorphism {
+    @apply bg-white/70 backdrop-blur-lg border border-white/20 shadow-xl shadow-indigo-500/10;
+}
 
 @layer components {
     /* START: Layout & Containers */

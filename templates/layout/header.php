@@ -10,14 +10,14 @@
     <meta name="user-role" content="<?php echo $_SESSION['role'] ?? 'Guest'; ?>">
     <title>JournalDB | Editorial Manager Clone</title>
     
-    <!-- START: Typography (Roboto Flex) -->
+    <!-- START: Typography (Outfit) -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Roboto+Flex:opsz,wght@8..144,100..1000&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700&display=swap" rel="stylesheet">
     <!-- END: Typography -->
 
-    <!-- External Tailwind CSS -->
-    <link rel="stylesheet" href="/JournalDB/public/assets/css/main.css">
+    <!-- Global Design System -->
+    <link rel="stylesheet" href="/JournalDB/src/css/style.css">
 </head>
 <body class="site-body">
     <!-- START: Navigation Section -->
