@@ -19,7 +19,7 @@ $pending_count = count(array_filter($manuscripts, fn($m) => $m['status'] === 'Te
 <div class="ui-layout-main">
     <div class="ui-grid-canvas">
         <?php foreach ($stats['recent_submissions'] as $item): ?>
-            <article class="ui-card ui-col-4">
+            <article class="ui-card ui-glassmorphism ui-col-4">
                 <header class="ui-card-header">
                     <span class="ui-label-meta">REF: <?php echo substr($item['id'], 0, 8); ?></span>
                     <span class="ui-badge-indigo"><?php echo str_replace('_', ' ', $item['status']); ?></span>
@@ -32,8 +32,14 @@ $pending_count = count(array_filter($manuscripts, fn($m) => $m['status'] === 'Te
                     </div>
                 </div>
                 <footer class="ui-card-footer-grid">
-                    <button class="ui-btn-primary">Assign Reviewers</button>
-                    <button class="ui-btn-secondary">Quick Reject</button>
+                    <?php if ($item['status'] === 'Accepted'): ?>
+                        <button class="ui-btn-success ui-btn-full move-production-btn" data-id="<?php echo $item['id']; ?>">
+                            Move to Production
+                        </button>
+                    <?php else: ?>
+                        <button class="ui-btn-primary">Assign Reviewers</button>
+                        <button class="ui-btn-secondary">Quick Reject</button>
+                    <?php endif; ?>
                 </footer>
             </article>
         <?php endforeach; ?>
