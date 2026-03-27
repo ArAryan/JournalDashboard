@@ -52,7 +52,7 @@ class AuthorDashboard extends Dashboard<Manuscript> {
  */
 class MultiStepWizard {
     private currentStep: number = 1;
-    private maxSteps: number = 2; // Updated to match template
+    private maxSteps: number = 3; // Updated for Phase 3
 
     constructor() {
         console.log("[START: Wizard Initialization]");
@@ -62,6 +62,8 @@ class MultiStepWizard {
     private initListeners(): void {
         const nextBtn = document.getElementById('next-btn');
         const fileInput = document.getElementById('file-upload') as HTMLInputElement;
+        const coiCheck = document.querySelector('input[name="coi_confirmed"]') as HTMLInputElement;
+        const submitBtn = document.getElementById('submit-btn') as HTMLButtonElement;
 
         if (nextBtn) {
             nextBtn.addEventListener('click', () => this.nextStep());
@@ -74,6 +76,17 @@ class MultiStepWizard {
                     fileNameEl.textContent = `Selected: ${fileInput.files[0].name}`;
                     fileNameEl.classList.remove('ui-text-muted');
                     fileNameEl.classList.add('ui-text-accent');
+                }
+            });
+        }
+
+        if (coiCheck && submitBtn) {
+            coiCheck.addEventListener('change', () => {
+                submitBtn.disabled = !coiCheck.checked;
+                if (coiCheck.checked) {
+                    submitBtn.classList.remove('ui-btn-disabled');
+                } else {
+                    submitBtn.classList.add('ui-btn-disabled');
                 }
             });
         }

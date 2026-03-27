@@ -36,6 +36,8 @@ class ManuscriptController {
             $title = filter_input(INPUT_POST, 'title', FILTER_SANITIZE_SPECIAL_CHARS);
             $abstract = filter_input(INPUT_POST, 'abstract', FILTER_SANITIZE_SPECIAL_CHARS);
             $cover_letter = filter_input(INPUT_POST, 'cover_letter', FILTER_SANITIZE_SPECIAL_CHARS);
+            $ethics_id = filter_input(INPUT_POST, 'ethics_id', FILTER_SANITIZE_SPECIAL_CHARS);
+            $coi_confirmed = isset($_POST['coi_confirmed']);
 
             // FILE HANDLING (Step 2)
             $file = $_FILES['manuscript_file'] ?? null;
@@ -56,8 +58,8 @@ class ManuscriptController {
                 $this->db->beginTransaction();
 
                 // 1. Create Manuscript Record
-                $stmt = $this->db->prepare("INSERT INTO manuscripts (author_id, title, abstract, status) VALUES (?, ?, ?, 'Technical_Check')");
-                $stmt->execute([$author_id, $title, $abstract]);
+                $stmt = $this->db->prepare("INSERT INTO manuscripts (author_id, title, abstract, status, ethics_approval_number) VALUES (?, ?, ?, 'Technical_Check', ?)");
+                $stmt->execute([$author_id, $title, $abstract, $ethics_id]);
                 $ms_id = $this->db->lastInsertId();
 
                 // 2. Create Submission Version Record

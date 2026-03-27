@@ -71,6 +71,28 @@
                 </div>
             </section>
 
+            <section class="ui-layout-main ui-hidden" id="step-3">
+                <div class="ui-card">
+                    <header class="ui-card-header">
+                        <h2 class="ui-heading-section">Step 3: Ethics & Compliance</h2>
+                    </header>
+                    <div class="ui-card-body ui-stack-y-6">
+                        <div class="ui-form-group">
+                            <label class="ui-form-label">Ethics Committee Approval Number</label>
+                            <input type="text" name="ethics_id" required class="ui-form-input" placeholder="e.g., IRB-2026-X12">
+                            <p class="ui-text-muted mt-2">Required for all human-subject research.</p>
+                        </div>
+                        
+                        <div class="ui-card-body-accent rounded-xl">
+                            <label class="ui-form-group-flex mb-0">
+                                <input type="checkbox" name="coi_confirmed" required class="ui-form-input ui-input-checkbox">
+                                <span class="ui-text-p-compact">I declare no financial or personal relationships that could inappropriately influence this work.</span>
+                            </label>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
             <aside class="ui-layout-side">
                 <div class="ui-card">
                     <header class="ui-card-header">
