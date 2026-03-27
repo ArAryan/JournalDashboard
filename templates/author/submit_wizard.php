@@ -3,7 +3,7 @@
 ?>
 
 <div class="wizard-root">
-    <form id="multi-step-form" action="/JournalDB/public/submit" method="POST" class="wizard-form">
+    <form id="multi-step-form" action="/JournalDB/public/submit" method="POST" enctype="multipart/form-data" class="wizard-form">
         <input type="hidden" name="csrf_token" value="<?php echo \App\Utils\CSRF::generateToken(); ?>">
         
         <header class="ui-page-header">
@@ -46,6 +46,31 @@
                 </div>
             </section>
 
+            <section class="ui-layout-main ui-hidden" id="step-2">
+                <div class="ui-card">
+                    <header class="ui-card-header">
+                        <h2 class="ui-heading-section">Step 2: Document Upload</h2>
+                    </header>
+                    <div class="ui-card-body ui-stack-y-6">
+                        <div class="ui-form-group">
+                            <label class="ui-form-label">Main Manuscript File (PDF/DOCX)</label>
+                            <div class="ui-card ui-card-body-accent ui-text-center border-dashed border-2">
+                                <input type="file" name="manuscript_file" id="file-upload" class="ui-hidden" required>
+                                <label for="file-upload" class="ui-btn-secondary cursor-pointer">
+                                    Select Document
+                                </label>
+                                <p class="ui-text-muted mt-4" id="file-name">No file selected (Max 20MB)</p>
+                            </div>
+                        </div>
+                        
+                        <div class="ui-form-group">
+                            <label class="ui-form-label">Cover Letter (Optional)</label>
+                            <textarea name="cover_letter" rows="4" class="ui-form-input" placeholder="Message to the editor..."></textarea>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
             <aside class="ui-layout-side">
                 <div class="ui-card">
                     <header class="ui-card-header">
@@ -68,7 +93,7 @@
         </div>
         <footer class="wizard-actions">
             <button type="button" id="next-btn" class="btn-primary">Next Step</button>
-            <button type="submit" id="submit-btn" class="wizard-submit-btn">Submit Manuscript</button>
+            <button type="submit" id="submit-btn" class="wizard-submit-btn ui-btn-primary ui-hidden">Submit Manuscript</button>
         </footer>
     </form>
 </div>

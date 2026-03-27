@@ -31,8 +31,10 @@ $manuscripts = $msController->getManuscriptsForDashboard();
                                 <p class="ui-text-p-compact">Last updated: <?php echo date('M d, Y', strtotime($ms['updated_at'])); ?></p>
                             </div>
                             <footer class="ui-card-footer">
-                                <button class="ui-btn-secondary">View Details</button>
-                                <button class="ui-btn-primary">Continue</button>
+                                <a href="/JournalDB/public/view?id=<?php echo $ms['id']; ?>" class="ui-btn-secondary">View Details</a>
+                                <?php if ($ms['status'] === 'Draft'): ?>
+                                    <a href="/JournalDB/public/submit?id=<?php echo $ms['id']; ?>" class="ui-btn-primary">Continue</a>
+                                <?php endif; ?>
                             </footer>
                         </article>
                     <?php endforeach; ?>

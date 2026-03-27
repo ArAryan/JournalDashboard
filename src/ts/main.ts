@@ -52,7 +52,7 @@ class AuthorDashboard extends Dashboard<Manuscript> {
  */
 class MultiStepWizard {
     private currentStep: number = 1;
-    private maxSteps: number = 3;
+    private maxSteps: number = 2; // Updated to match template
 
     constructor() {
         console.log("[START: Wizard Initialization]");
@@ -61,8 +61,21 @@ class MultiStepWizard {
 
     private initListeners(): void {
         const nextBtn = document.getElementById('next-btn');
+        const fileInput = document.getElementById('file-upload') as HTMLInputElement;
+
         if (nextBtn) {
             nextBtn.addEventListener('click', () => this.nextStep());
+        }
+
+        if (fileInput) {
+            fileInput.addEventListener('change', () => {
+                const fileNameEl = document.getElementById('file-name');
+                if (fileNameEl && fileInput.files && fileInput.files[0]) {
+                    fileNameEl.textContent = `Selected: ${fileInput.files[0].name}`;
+                    fileNameEl.classList.remove('ui-text-muted');
+                    fileNameEl.classList.add('ui-text-accent');
+                }
+            });
         }
     }
 
@@ -71,23 +84,27 @@ class MultiStepWizard {
         
         // Hide current step
         const currentEl = document.getElementById(`step-${this.currentStep}`);
-        if (currentEl) currentEl.classList.add('hidden');
+        if (currentEl) currentEl.classList.add('ui-hidden');
 
         this.currentStep++;
 
-        // Show next step (or submit button)
-        if (this.currentStep >= this.maxSteps) {
+        // Show next step
+        const nextEl = document.getElementById(`step-${this.currentStep}`);
+        if (nextEl) nextEl.classList.remove('ui-hidden');
+
+        // Toggle buttons if on last step
+        if (this.currentStep === this.maxSteps) {
             const nextBtn = document.getElementById('next-btn');
             const submitBtn = document.getElementById('submit-btn');
-            if (nextBtn) nextBtn.classList.add('hidden');
-            if (submitBtn) submitBtn.classList.remove('hidden');
+            if (nextBtn) nextBtn.classList.add('ui-hidden');
+            if (submitBtn) submitBtn.classList.remove('ui-hidden');
         }
 
-        // Update Progress Tracker
-        const indicators = document.querySelectorAll('.step-indicator');
+        // Update Progress Tracker (if exists)
+        const indicators = document.querySelectorAll('.ui-badge-pill');
         if (indicators[this.currentStep - 1]) {
-            indicators[this.currentStep - 1].classList.remove('step-inactive');
-            indicators[this.currentStep - 1].classList.add('step-active');
+            indicators[this.currentStep - 1].classList.remove('ui-muted');
+            indicators[this.currentStep - 1].classList.add('ui-badge-indigo');
         }
     }
 }

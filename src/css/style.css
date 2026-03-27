@@ -190,6 +190,12 @@
     .ui-badge-success { @apply ui-badge bg-emerald-50 text-emerald-700 border border-emerald-100; }
     .ui-badge-warning { @apply ui-badge bg-amber-50 text-amber-700 border border-amber-100; }
     
+    /* 6.1 Alerts & Internal Notifications */
+    .ui-alert { @apply p-4 rounded-xl border mb-6 text-sm font-medium animate-in fade-in slide-in-from-top-2 duration-300; }
+    .ui-alert-error { @apply ui-alert bg-rose-50 text-rose-600 border-rose-100; }
+    .ui-alert-success { @apply ui-alert bg-emerald-50 text-emerald-600 border-emerald-100; }
+    .ui-alert-info { @apply ui-alert bg-indigo-50 text-indigo-600 border-indigo-100; }
+    
     /* 7. Structural Helpers */
     .ui-stack-row { @apply flex items-center justify-between w-full; }
     .ui-stack-y-4 { @apply space-y-4; }

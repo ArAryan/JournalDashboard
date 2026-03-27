@@ -58,7 +58,7 @@ switch ($path) {
 
 // START: Render Engine
 require_once TEMPLATE_PATH . '/layout/header.php';
-if ($error) echo "<div class='col-span-12 bg-rose-50 text-rose-600 p-4 rounded-xl border border-rose-100 mb-6'>$error</div>";
+if ($error) echo "<div class='ui-alert-error'>$error</div>";
 require_once TEMPLATE_PATH . '/' . $view;
 require_once TEMPLATE_PATH . '/layout/footer.php';
 // END: Render Engine
