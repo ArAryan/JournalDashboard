@@ -16,8 +16,22 @@
     <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700&display=swap" rel="stylesheet">
     <!-- END: Typography -->
 
-    <!-- Global Design System -->
-    <link rel="stylesheet" href="/JournalDB/src/css/style.css">
+    <!-- Tailwind CDN with Custom Configuration -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    fontFamily: {
+                        sans: ['Outfit', 'sans-serif'],
+                    },
+                }
+            }
+        }
+    </script>
+    
+    <!-- Global Design System (Processed by Tailwind CDN) -->
+    <link rel="stylesheet" type="text/tailwindcss" href="/JournalDB/src/css/style.css">
 </head>
 <body class="site-body">
     <!-- START: Navigation Section -->
