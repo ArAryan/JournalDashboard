@@ -12,6 +12,7 @@ CREATE TABLE IF NOT EXISTS users (
     password_hash VARCHAR(255) NOT NULL,
     full_name VARCHAR(255) NOT NULL,
     role ENUM('Author', 'Reviewer', 'Editor', 'Admin') DEFAULT 'Author',
+    specialty_tags TEXT, -- Comma-separated tags (e.g., 'Oncology, AI')
     orcid_id VARCHAR(255) UNIQUE,
     created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
     INDEX idx_user_role (role)
@@ -68,6 +69,26 @@ CREATE TABLE IF NOT EXISTS audit_logs (
     ip_address VARCHAR(45),
     timestamp TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
     FOREIGN KEY (user_id) REFERENCES users(id) ON DELETE SET NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+/**
+ * Peer Review Table (Structured Evaluations)
+ */
+CREATE TABLE IF NOT EXISTS reviews (
+    id INT PRIMARY KEY AUTO_INCREMENT,
+    manuscript_id INT NOT NULL,
+    reviewer_id INT NOT NULL,
+    invitation_token VARCHAR(64) UNIQUE,
+    status ENUM('Pending', 'Accepted', 'Declined', 'Completed', 'Cancelled') DEFAULT 'Pending',
+    score_originality TINYINT DEFAULT 0,
+    score_methodology TINYINT DEFAULT 0,
+    score_clinical_impact TINYINT DEFAULT 0,
+    comments_to_author TEXT,
+    comments_to_editor TEXT,
+    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+    FOREIGN KEY (manuscript_id) REFERENCES manuscripts(id) ON DELETE CASCADE,
+    FOREIGN KEY (reviewer_id) REFERENCES users(id) ON DELETE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 /* END: MySQL Schema Initialization */

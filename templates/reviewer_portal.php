@@ -15,27 +15,56 @@
 <div class="ui-layout-main">
     <section class="ui-card">
         <header class="ui-card-header">
-            <h2 class="ui-heading-section">Manuscript Abstract</h2>
-            <div class="ui-stack-x-4">
-                <span class="ui-label-meta">Type: Original Research</span>
-            </div>
+            <h2 class="ui-heading-section">Critical Evaluation Form</h2>
         </header>
-        <div class="ui-card-body">
-            <p class="ui-text-p">This paper explores the integration of deep learning models in radiological imaging workflows...</p>
-        </div>
-    </section>
+        <form action="/JournalDB/public/submit-review" method="POST" class="ui-card-body ui-stack-y-8">
+            <input type="hidden" name="csrf_token" value="<?php echo \App\Utils\CSRF::generateToken(); ?>">
+            <input type="hidden" name="review_token" value="<?php echo $_GET['token'] ?? ''; ?>">
 
-    <section class="ui-card">
-        <div class="ui-card-body">
-            <label class="ui-form-group-flex">
-                <input type="checkbox" id="coi-check" class="ui-form-input ui-input-checkbox">
-                <span class="ui-text-p-compact">I confirm that I have no financial or personal relationships with the authors or their institutions that could bias my evaluation of this work.</span>
-            </label>
-        </div>
-        <footer class="ui-card-footer">
-            <button class="ui-btn-primary">Accept Invitation</button>
-            <button class="ui-btn-secondary">Decline</button>
-        </footer>
+            <div class="ui-grid-canvas">
+                <!-- Scoring Metrics -->
+                <div class="ui-col-4 ui-form-group">
+                    <label class="ui-form-label">Originality (1-5)</label>
+                    <select name="originality" class="ui-form-input">
+                        <?php for($i=1;$i<=5;$i++) echo "<option value='$i'>$i</option>"; ?>
+                    </select>
+                </div>
+                <div class="ui-col-4 ui-form-group">
+                    <label class="ui-form-label">Methodology (1-5)</label>
+                    <select name="methodology" class="ui-form-input">
+                        <?php for($i=1;$i<=5;$i++) echo "<option value='$i'>$i</option>"; ?>
+                    </select>
+                </div>
+                <div class="ui-col-4 ui-form-group">
+                    <label class="ui-form-label">Clinical Impact (1-5)</label>
+                    <select name="impact" class="ui-form-input">
+                        <?php for($i=1;$i<=5;$i++) echo "<option value='$i'>$i</option>"; ?>
+                    </select>
+                </div>
+            </div>
+
+            <div class="ui-form-group">
+                <label class="ui-form-label">Confidential Comments to Editor</label>
+                <textarea name="comments_editor" rows="4" class="ui-form-input" placeholder="Hidden from the author..."></textarea>
+            </div>
+
+            <div class="ui-form-group">
+                <label class="ui-form-label">Comments to Author</label>
+                <textarea name="comments_author" rows="6" class="ui-form-input" placeholder="Provide constructive feedback..."></textarea>
+            </div>
+
+            <div class="ui-card-body-accent rounded-xl">
+                <label class="ui-form-group-flex mb-0">
+                    <input type="checkbox" id="coi-check" class="ui-form-input ui-input-checkbox" required>
+                    <span class="ui-text-p-compact">I confirm that I have no financial or personal relationships with the authors that could bias my evaluation.</span>
+                </label>
+            </div>
+
+            <footer class="ui-stack-row pt-8">
+                <button type="button" class="ui-btn-secondary">Save Draft</button>
+                <button type="submit" id="submit-review-btn" class="ui-btn-primary" disabled>Submit Final Review</button>
+            </footer>
+        </form>
     </section>
 
     <div class="ui-grid-canvas">
@@ -56,7 +85,6 @@
         </section>
     </div>
 </div>
-
 <?php
 /* END: Reviewer Portal View */
 ?>

@@ -38,6 +38,42 @@ $pending_count = count(array_filter($manuscripts, fn($m) => $m['status'] === 'Te
             </article>
         <?php endforeach; ?>
     </div>
+
+    <!-- START: Expert Reviewer Matching -->
+    <section class="ui-page-section">
+        <header class="ui-page-header">
+            <h2 class="ui-heading-section">Expert Reviewer Network</h2>
+        </header>
+        <div class="ui-grid-canvas">
+            <?php 
+            $reviewers = $auth->getUsersByRole('Reviewer'); 
+            foreach ($reviewers as $rev): 
+            ?>
+                <article class="ui-card ui-col-4 ui-card-hover">
+                    <div class="ui-card-body ui-stack-y-4">
+                        <div class="ui-stack-row">
+                            <h3 class="ui-heading-card-compact"><?php echo $rev['full_name']; ?></h3>
+                            <span class="ui-badge-success">Available</span>
+                        </div>
+                        <div class="ui-stack-x-4 flex-wrap">
+                            <?php 
+                            $tags = explode(',', $rev['specialty_tags'] ?? 'General Medicine');
+                            foreach($tags as $tag): 
+                            ?>
+                                <span class="ui-label-meta bg-slate-100 px-2 py-1 rounded"><?php echo trim($tag); ?></span>
+                            <?php endforeach; ?>
+                        </div>
+                    </div>
+                    <footer class="ui-card-footer">
+                        <button class="ui-btn-secondary-compact ui-btn-full invite-reviewer-btn" data-id="<?php echo $rev['id']; ?>">
+                            Send Invitation
+                        </button>
+                    </footer>
+                </article>
+            <?php endforeach; ?>
+        </div>
+    </section>
+    <!-- END: Expert Reviewer Matching -->
 </div>
 
 <?php

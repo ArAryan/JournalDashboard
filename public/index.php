@@ -51,6 +51,21 @@ switch ($path) {
     case 'logout':
         $authController->handleLogout();
         break;
+    case 'invite-reviewer':
+        // API Endpoint
+        header('Content-Type: application/json');
+        $data = json_decode(file_get_contents('php://input'), true);
+        $reviewService = new \App\Services\ReviewService($db);
+        $token = $reviewService->inviteReviewer($data['manuscript_id'], $data['reviewer_id']);
+        echo json_encode(['status' => 'success', 'token' => $token]);
+        exit();
+    case 'submit-review':
+        // Handle Evaluation
+        if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+            $view = 'index.php'; // Temporary redirect
+            $success = "Evaluation Submitted Successfully";
+        }
+        break;
     default:
         $view = '404.php';
         break;
