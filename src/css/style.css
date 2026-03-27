@@ -1,0 +1,221 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* START: Global Design System & Variables */
+:root {
+    --primary-indigo: #4f46e5;
+    --primary-indigo-hover: #4338ca;
+    --slate-900: #0f172a;
+    --slate-700: #334155;
+    --slate-500: #64748b;
+    --slate-400: #94a3b8;
+    --slate-100: #f1f5f9;
+    --bg-clinical: #f8fafc;
+}
+
+@layer base {
+    body { @apply bg-slate-50 text-slate-900 antialiased font-sans; }
+    h1 { @apply text-4xl font-bold tracking-tight text-slate-900 mb-6; }
+    h2 { @apply text-2xl font-bold text-slate-800 mb-4; }
+    h3 { @apply text-xl font-bold text-slate-800 mb-3; }
+    p  { @apply text-[18px] font-normal text-slate-600 leading-relaxed mb-4; }
+    a  { @apply transition-all duration-300; }
+}
+/* END: Global Design System & Variables */
+
+@layer components {
+    /* START: Layout & Containers */
+    .app-container { @apply max-w-7xl mx-auto px-6 lg:px-12 grid grid-cols-12 gap-8; }
+    .site-header { @apply bg-white border-b border-slate-200 sticky top-0 z-50 py-4; }
+    .site-footer { @apply py-12 mt-20 border-t border-slate-100 bg-slate-50/50; }
+    .main-content { @apply app-container pt-12 pb-24; }
+    /* END: Layout & Containers */
+
+    /* START: Buttons & Interactive */
+    .btn-primary {
+        @apply px-8 py-3 bg-indigo-600 text-white rounded-2xl font-bold shadow-lg shadow-indigo-100;
+        @apply hover:bg-indigo-700 hover:shadow-indigo-200 hover:-translate-y-0.5 active:translate-y-0;
+    }
+    .btn-secondary {
+        @apply px-8 py-3 bg-white text-slate-600 border border-slate-200 rounded-2xl font-bold;
+        @apply hover:bg-slate-50 hover:text-slate-900 hover:border-slate-300;
+    }
+    .btn-action { @apply text-xs font-bold py-2 px-4 rounded-xl transition-all; }
+    /* END: Buttons & Interactive */
+
+    /* START: Dashboard & Cards */
+    .dashboard-card {
+        @apply p-8 bg-white border border-slate-100 rounded-[32px] shadow-sm transition-all duration-500;
+        @apply hover:shadow-2xl hover:shadow-slate-200/50 hover:border-indigo-100 hover:-translate-y-1;
+    }
+    .card-id { @apply text-xs font-bold text-slate-400 uppercase tracking-widest; }
+    .card-title { @apply text-lg font-bold text-slate-900 group-hover:text-indigo-600 transition-colors; }
+    .card-meta { @apply text-sm text-slate-500 flex justify-between items-center; }
+    
+    .status-pill {
+        @apply px-3 py-1 rounded-full text-[10px] font-black uppercase tracking-widest border;
+    }
+    .status-pill-indigo { @apply bg-indigo-50 text-indigo-600 border-indigo-100; }
+    .status-pill-amber { @apply bg-amber-50 text-amber-700 border-amber-100; }
+    .status-pill-emerald { @apply bg-emerald-50 text-emerald-700 border-emerald-100; }
+    /* END: Dashboard & Cards */
+
+    /* START: Authentication Layer */
+    .auth-wrapper { @apply max-w-xl mx-auto py-20; }
+    .auth-card { @apply p-12 bg-white border border-slate-100 rounded-[40px] shadow-2xl shadow-slate-200/40; }
+    .auth-header { @apply mb-10 text-center; }
+    .auth-footer { @apply mt-8 text-center text-sm text-slate-500; }
+    
+    .form-group { @apply mb-6; }
+    .form-label { @apply block text-sm font-bold text-slate-700 mb-2; }
+    .form-input { 
+        @apply w-full px-5 py-4 bg-slate-50 border border-slate-200 rounded-2xl outline-none transition-all;
+        @apply focus:bg-white focus:ring-4 focus:ring-indigo-500/10 focus:border-indigo-500;
+    }
+    /* END: Authentication Layer */
+
+    /* START: Multi-step Wizard */
+    .wizard-root { @apply dashboard-card col-span-12 border-indigo-100; }
+    .wizard-header { @apply flex justify-between items-center mb-12 pb-8 border-b border-slate-50; }
+    .wizard-progress { @apply flex items-center space-x-4; }
+    .step-indicator {
+        @apply w-10 h-10 rounded-full flex items-center justify-center font-bold border-2 transition-all;
+    }
+    .step-active { @apply bg-indigo-600 border-indigo-600 text-white shadow-lg shadow-indigo-100 scale-110; }
+    .step-inactive { @apply border-slate-100 text-slate-300; }
+    
+    .wizard-step-content { @apply grid grid-cols-12 gap-8 py-4 animate-in fade-in duration-500; }
+    .wizard-actions { @apply flex justify-end space-x-4 mt-12 pt-8 border-t border-slate-50; }
+    /* END: Multi-step Wizard */
+
+    .dashboard-card-highlight { @apply border-indigo-100 bg-indigo-50/30; }
+    .card-title-lg { @apply text-xl font-bold text-indigo-900 mb-6; }
+    .quick-actions-grid { @apply flex flex-col space-y-4; }
+    .btn-full-width { @apply w-full; }
+    .btn-text-left { @apply text-left px-6; }
+    .btn-group { @apply flex justify-between items-center group; }
+    
+    .stats-item { @apply flex justify-between items-center py-3 border-b border-slate-50 last:border-0; }
+    .stats-label { @apply text-slate-500 text-sm; }
+    .stats-value { @apply font-bold text-slate-900; }
+
+    .card-header-meta { @apply flex justify-between items-start mb-4; }
+    .card-abstract { @apply text-sm text-slate-500 mb-6 line-clamp-2; }
+    .card-date { @apply text-[10px] text-slate-400 font-bold; }
+
+    .site-header-inner { @apply app-container py-0 flex justify-between items-center; }
+    .btn-secondary-compact { @apply btn-secondary py-2 px-6 text-sm; }
+    .btn-primary-compact { @apply btn-primary py-2 px-6 text-sm; }
+    .status-pill-lg { @apply status-pill status-pill-amber text-[12px] px-4 py-2; }
+    .btn-panel-action { @apply btn-secondary text-[10px] py-2 px-0 text-center; }
+    .btn-panel-primary { @apply btn-primary text-[10px] py-2 px-0 text-center; }
+    .error-container { @apply col-span-12 py-32 text-center; }
+    .error-title { @apply text-9xl font-black text-slate-100 mb-8; }
+
+    /* Reviewer Portal Specifics */
+    .reviewer-invitation-card { @apply dashboard-card border-amber-100 bg-amber-50/20; }
+    .reviewer-header { @apply flex items-center mb-8; }
+    .reviewer-icon-wrapper { @apply w-12 h-12 bg-amber-100 text-amber-600 rounded-2xl flex items-center justify-center mr-6; }
+    .reviewer-icon { @apply h-6 w-6; }
+    .reviewer-actions { @apply flex space-x-4; }
+    .btn-reviewer-accept { @apply btn-primary flex-1; }
+    .reviewer-stat-label { @apply text-slate-500; }
+    .reviewer-stat-value-success { @apply font-bold text-emerald-600; }
+
+    /* Editor Dashboard Specifics */
+    .editor-header-actions { @apply flex space-x-4; }
+    .editor-empty-queue { @apply col-span-full py-20 text-center text-slate-400; }
+    .editor-card-header { @apply flex justify-between items-start mb-4; }
+    .editor-card-author { @apply text-sm text-slate-500 mb-6; }
+    .editor-card-author-name { @apply font-bold text-slate-700; }
+    .editor-card-footer { @apply grid grid-cols-2 gap-4 pt-6 border-t border-slate-50; }
+
+    /* 1. Global Layouts & Grids (Semantic) */
+    .ui-container { @apply max-w-7xl mx-auto px-4 sm:px-6 lg:px-8; }
+    .ui-grid-canvas { @apply grid grid-cols-12 gap-8 lg:gap-12; }
+    .ui-layout-main { @apply col-span-12 lg:col-span-8 space-y-8; }
+    .ui-layout-side { @apply col-span-12 lg:col-span-4 space-y-8; }
+    .ui-layout-full { @apply col-span-12 space-y-8; }
+    .ui-layout-auth { @apply col-span-12 lg:col-start-3 lg:col-span-8 mt-12 md:mt-24 space-y-8; }
+    .ui-layout-center { @apply col-span-12 flex flex-col items-center justify-center text-center py-24; }
+    
+    /* 2. Page Sections */
+    .ui-page-section { @apply py-8 md:py-12; }
+    .ui-page-section-compact { @apply py-4; }
+    .ui-page-header { @apply mb-10 pb-8 border-b border-slate-100 flex justify-between items-end; }
+    
+    /* 2. Generic Cards & Surrounding UI */
+    .ui-card { @apply bg-white rounded-xl shadow-sm border border-slate-200 overflow-hidden transition-all duration-300; }
+    .ui-card-header { @apply p-6 border-b border-slate-100 flex justify-between items-center bg-white; }
+    .ui-card-header-flex { @apply ui-card-header flex-col items-start gap-2; }
+    .ui-card-body { @apply p-6 bg-white; }
+    .ui-card-body-accent { @apply p-6 bg-slate-50/80 border-t border-slate-100; }
+    .ui-card-footer { @apply p-6 bg-slate-50 border-t border-slate-100 flex justify-between items-center; }
+    .ui-card-footer-grid { @apply ui-card-footer grid grid-cols-2 gap-4; }
+    .ui-card-hover { @apply hover:shadow-md hover:border-slate-300; }
+
+    /* 3. Typography (Semantic) */
+    .ui-heading-hero { @apply text-4xl md:text-5xl font-bold tracking-tight text-slate-900 leading-tight mb-4; }
+    .ui-heading-section { @apply text-2xl md:text-3xl font-semibold text-slate-800 mb-6; }
+    .ui-heading-card { @apply text-lg font-semibold text-slate-800 mb-4; }
+    .ui-heading-card-compact { @apply ui-heading-card mb-0; }
+    .ui-text-p { @apply text-[18px] font-normal text-slate-600 leading-relaxed mb-4; }
+    .ui-text-p-compact { @apply ui-text-p mb-0 text-sm; }
+    .ui-text-highlight { @apply font-bold text-slate-800; }
+    .ui-text-accent { @apply font-bold text-indigo-600; }
+    .ui-text-muted { @apply text-slate-400 text-sm; }
+    .ui-text-center { @apply text-center; }
+    .ui-label-meta { @apply text-[10px] uppercase font-bold tracking-widest text-slate-400; }
+
+    /* 4. Interactive Components */
+    .ui-btn { @apply inline-flex items-center justify-center px-6 py-3 rounded-lg font-semibold transition-all duration-300; }
+    .ui-btn-primary { @apply ui-btn bg-indigo-600 text-white hover:bg-indigo-700 shadow-sm active:scale-95; }
+    .ui-btn-primary-ghost { @apply ui-btn-primary opacity-50 cursor-not-allowed; }
+    .ui-btn-secondary { @apply ui-btn bg-white text-slate-700 border border-slate-200 hover:bg-slate-50 hover:border-slate-300; }
+    .ui-btn-secondary-compact { @apply ui-btn-secondary py-2 px-4 text-xs; }
+    .ui-btn-full { @apply w-full; }
+
+    /* 5. Generic Form Controls */
+    .ui-form-group { @apply space-y-2 mb-6; }
+    .ui-form-group-flex { @apply flex items-start gap-4 mb-6; }
+    .ui-form-label { @apply block text-sm font-bold text-slate-700 mb-1; }
+    .ui-form-input { @apply w-full px-4 py-3 rounded-lg border border-slate-200 bg-white text-slate-800 placeholder-slate-400 transition-all focus:outline-none focus:ring-2 focus:ring-indigo-500/20 focus:border-indigo-500; }
+    .ui-input-checkbox { @apply w-6 h-6 rounded border-slate-300 text-indigo-600 focus:ring-indigo-500; }
+
+    /* 6. System Badges */
+    .ui-badge { @apply inline-flex items-center px-4 py-2 rounded-full text-xs font-bold uppercase tracking-wider; }
+    .ui-badge-pill { @apply w-10 h-10 flex items-center justify-center rounded-xl p-0; }
+    .ui-badge-indigo { @apply ui-badge bg-indigo-50 text-indigo-700 border border-indigo-100; }
+    .ui-badge-success { @apply ui-badge bg-emerald-50 text-emerald-700 border border-emerald-100; }
+    .ui-badge-warning { @apply ui-badge bg-amber-50 text-amber-700 border border-amber-100; }
+    
+    /* 7. Structural Helpers */
+    .ui-stack-row { @apply flex items-center justify-between w-full; }
+    .ui-stack-y-4 { @apply space-y-4; }
+    .ui-stack-y-8 { @apply space-y-8; }
+    .ui-stack-x-4 { @apply flex items-center space-x-4; }
+    
+    .ui-col-12 { @apply col-span-12; }
+    .ui-col-8 { @apply col-span-12 lg:col-span-8; }
+    .ui-col-6 { @apply col-span-12 md:col-span-6; }
+    .ui-col-4 { @apply col-span-12 md:col-span-6 lg:col-span-4; }
+    .ui-col-3 { @apply col-span-12 md:col-span-4 lg:col-span-3; }
+    
+    .ui-divider { @apply h-px w-full bg-slate-100 my-6; }
+    .ui-muted { @apply opacity-50; }
+    .ui-hidden { @apply hidden; }
+}
+
+/* START: Navigation & Semantic Layouts (Polished) */
+.nav-container { @apply ui-stack-row w-full; }
+.header-logo-container { @apply flex items-center gap-2; }
+.nav-links { @apply flex items-center gap-8; }
+.nav-link { @apply text-sm font-semibold text-slate-500 hover:text-indigo-600 transition-colors; }
+.nav-profile { @apply flex items-center gap-4 pl-8 border-l border-slate-100; }
+
+.footer-content { @apply ui-stack-row; }
+.footer-links { @apply flex gap-6; }
+
+.site-body { @apply bg-slate-50 min-h-screen antialiased text-slate-900; }
+/* END: Navigation & Semantic Layouts */

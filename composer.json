@@ -1,0 +1,19 @@
+{
+    "name": "journal/editorial-manager",
+    "description": "Professional manuscript submission and peer-review system.",
+    "type": "project",
+    "require": {
+        "php": "^8.1",
+        "vlucas/phpdotenv": "^5.5"
+    },
+    "autoload": {
+        "psr-4": {
+            "App\\": "src/"
+        }
+    },
+    "authors": [
+        {
+            "name": "Developer"
+        }
+    ]
+}

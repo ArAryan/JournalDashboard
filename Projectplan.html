@@ -1,0 +1,311 @@
+Building a clone of **Editorial Manager (EM)**—the industry standard for medical and scientific manuscript
+submission—requires more than just a file upload system. It is a complex workflow engine that manages the lifecycle of
+intellectual property through high-stakes peer review.
+
+Below is a consolidated report analyzing the site's functionality and a roadmap for building a professional-grade clone.
+
+---
+
+### Part 1: Functional Analysis of Editorial Manager
+The core of EM is its **Role-Based Access Control (RBAC)**. The system behaves differently depending on who is logged
+in:
+
+#### 1. Author Interface (Submission & Tracking)
+* **Submission Steps:** Multi-step wizard to upload manuscripts, figures, and supplemental data.
+* **Metadata Extraction:** Automated pulling of titles, abstracts, and author lists from uploaded Word/PDF files.
+* **Declarations:** Automated forms for Conflicts of Interest (COI), funding disclosures, and ethical approvals.
+* **Status Tracking:** Real-time visibility into whether a paper is "With Editor," "Under Review," or "Decision
+Started."
+
+#### 2. Editor Interface (Management & Decision Making)
+* **Technical Check:** Tools to verify if a submission meets journal formatting and ethical standards before peer
+review.
+* **Reviewer Matching:** Searchable databases of experts, often integrated with external services like Scopus or ORCID
+to find qualified reviewers based on keywords.
+* **Decision Engine:** Tools to register "Accept," "Reject," or "Revise" decisions, including templated email generators
+that pull in reviewer comments.
+
+#### 3. Reviewer Interface (Evaluation)
+* **Invitation Management:** Secure links to accept or decline review assignments.
+* **Review Forms:** Structured forms for scoring original research on criteria like methodology, novelty, and clinical
+relevance.
+* **Blind Review Toggle:** Systems to ensure reviewers cannot see author identities (Double-Blind) or vice versa.
+
+---
+
+### Part 2: Technical Architecture for a Clone
+To build a modern version of this system, you should move away from the dated "monolithic" look of EM and toward a
+**Modular Microservices** architecture.
+
+
+#### 1. The Tech Stack (Recommended)
+* **Frontend:** React or Next.js for a responsive, dashboard-heavy UI.
+* **Backend:** Node.js (NestJS) or Python (Django/FastAPI) to handle complex state transitions.
+* **Database:** PostgreSQL (Relational data is critical for linking Authors -> Manuscripts -> Reviews).
+* **Storage:** AWS S3 or Google Cloud Storage for large manuscript and image files.
+* **Document Processing:** Integration with APIs like **Aspose** or **Pandoc** to convert and extract metadata from
+`.docx` and `.tex` files.
+
+#### 2. Core Workflow Logic (The "State Machine")
+A manuscript is never just "uploaded"; it exists in a specific state. You must program a **State Machine** to handle
+transitions:
+* `SUBMITTED` → `TECHNICAL_CHECK_PENDING`
+* `TECHNICAL_CHECK_PASSED` → `EDITOR_ASSIGNED`
+* `UNDER_REVIEW` → `DECISION_PENDING`
+
+---
+
+### Part 3: Building the Clone — Consolidated Roadmap
+
+#### Phase 1: MVP (Submission & Storage)
+* **User Profiles:** Integrate **ORCID API** for authentication (essential in the medical field).
+* **File Uploads:** Secure multi-file upload with version control (handling Rev 1, Rev 2 of the same paper).
+* **PDF Generation:** Automatically merge uploaded files into a "Reviewer PDF" with watermarks.
+
+#### Phase 2: Peer Review Engine
+* **Invitation System:** Generate unique, expiring tokens for reviewers to access papers without a full account login.
+* **Reviewer Database:** A searchable internal directory of users tagged by medical specialty (e.g., "Oncology,"
+"Cardiology").
+* **Automated Reminders:** Cron jobs to email reviewers and authors when deadlines are approaching.
+
+#### Phase 3: Medical-Specific Compliance
+* **Plagiarism Detection:** Integrate with **iThenticate** or **Turnitin** APIs.
+* **Ethics Integration:** Mandatory checkboxes for IRB (Institutional Review Board) approval numbers.
+* **Conflict of Interest (COI) Module:** Digital signature collection for all co-authors, not just the submitter.
+
+#### Phase 4: Production & Export
+* **XML Export:** Exporting final accepted papers in **JATS XML** format (the standard for PubMed/MEDLINE indexing).
+* **DOI Assignment:** Integration with **Crossref** to mint Digital Object Identifiers for published works.
+
+### Critical Success Factor: Security
+In medical publishing, data is sensitive. Your clone must prioritize:
+1. **Data Encryption:** Both at rest and in transit.
+2. **Anonymization:** Logic that automatically strips author names from files for "Double-Blind" journals.
+3. **Audit Logs:** A permanent record of who accessed a manuscript and when, to prevent editorial fraud.
+
+
+In a system like **Editorial Manager (EM)**, permissions are organized into "Role Families." While you can create custom
+roles (e.g., "Statistical Editor"), they must inherit from one of the four base logic sets.
+
+Here is the consolidated list of roles and the specific approvals/permissions required for a clone.
+
+---
+
+### 1. The Role Families
+| Role Family | Primary Objective | Key Accountability |
+| :--- | :--- | :--- |
+| **Author** | Submit & Revise | Accuracy of data and ethical compliance. |
+| **Reviewer** | Evaluate | Objective critique of methodology and novelty. |
+| **Editor** | Manage & Decide | Selection of reviewers and final "Accept/Reject" verdict. |
+| **Publisher / Admin** | Configure & Produce | System health, XML exports, and DOI minting. |
+
+---
+
+### 2. Detailed Permissions & Approvals List
+
+#### **Editor Roles (The "Decision Makers")**
+Editors are usually split into a hierarchy (Editor-in-Chief, Managing Editor, Section Editor).
+* **Search & Assign:** Permission to search the user database and "Assign" a paper to a lower-level editor or "Invite" a
+reviewer.
+* **Decision Authority:**
+* *Recommendation only:* Can suggest a verdict but cannot trigger the automated email to the author.
+* *Final Decision:* Can officially "Accept," "Reject," or "Request Revision."
+* **Blind Control:** Access to toggle "Single-Blind" vs. "Double-Blind" settings for specific manuscripts.
+* **Bypass Technical Check:** Permission to move a paper forward even if it fails automated formatting checks.
+
+#### **Reviewer Roles (The "Evaluators")**
+Reviewers have restricted "Siloed" access.
+* **Access Restricted Files:** Permission to view only the "Reviewer PDF" (which usually has author names removed).
+* **Submit Review Form:** Access to the scoring grid and the "Comments to Editor" (private) vs. "Comments to Author"
+(public) fields.
+* **Conflict of Interest (COI) Approval:** Must digitally sign a COI statement before the system reveals the manuscript
+files.
+
+#### **System Administrator (The "Superuser")**
+This is likely the role you will need to build first for your clone.
+* **RoleManager:** Permission to create new role types and check/uncheck specific permission boxes.
+* **PolicyManager:** Defines the "Rules of the House" (e.g., *How many days does a reviewer get?*, *Is the journal Open
+Access?*).
+* **Proxy Power:** The high-level ability to "Login as" another user to troubleshoot a submission error (highly
+sensitive).
+* **Decision Rescinding:** The rare power to "undo" a final decision after it has been sent to the author.
+
+#### **Author Roles (The "Contributors")**
+* **Submission Initiation:** Permission to start a new "New Submission" or "Invited Submission."
+* **Co-Author Management:** Permission to add/remove other authors and trigger "Verify Identity" emails to them.
+* **Final Approval:** A specific step where the author must view the "Built PDF" and click "I approve this version"
+before it reaches the editorial office.
+
+---
+
+### 3. Critical "Approval" Touchpoints
+In your clone’s logic, these are the **hard gates** where the workflow stops until a specific user takes action:
+
+1. **Technical Approval:** A Managing Editor must click "Technical Check Passed" before any academic editor sees the
+paper.
+2. **Reviewer Consent:** A Reviewer must click "I Accept the Invitation" before the manuscript download link becomes
+active.
+3. **Ethical Approval:** The system must block the "Submit" button until the Author enters an **IRB/Ethics Committee**
+number.
+4. **Final Disposition:** Only the Editor-in-Chief typically has the approval to move a paper into the "Production"
+state for publishing.
+
+**Would you like me to draft a database schema (SQL) that handles these role-based permissions and the manuscript "State
+Machine"?**
+
+To build an effective clone of a system like Editorial Manager, the interface must be **context-aware**. Users shouldn't
+see every field at once; they should only see what is relevant to the current "State" of the manuscript.
+
+Here is the chronological flow of fields categorized by the user's journey.
+
+---
+
+### Phase 1: Submission & Intake (Author & Admin)
+Before a paper is even "Active," the system must collect specific data points to validate the entry.
+
+| Step | Field / Data Point | Visible To | Purpose |
+| :--- | :--- | :--- | :--- |
+| **1** | **Article Type Selection** | Author | Determines the workflow (e.g., Original Research vs. Letter). |
+| **2** | **Manuscript Title & Abstract** | Author / Admin | The core identity of the submission. |
+| **3** | **Author List & Affiliations** | Author / Admin | Captures who did the work and where. |
+| **4** | **Funding & COI Declarations** | Author / Admin | Legal and ethical compliance. |
+| **5** | **File Upload Metadata** | Admin | File type (Manuscript, Figure, Table) and size. |
+| **6** | **Checklist Completion** | Admin | A "Pass/Fail" log for the initial technical screening. |
+
+---
+
+### Phase 2: The Review Cycle (Editor & Reviewer)
+Once the Admin clears the paper, the focus shifts to evaluation.
+
+* **Editor Assignment Field:** A dropdown or search bar to link a Section Editor to the paper.
+* **Reviewer Invitation Fields:**
+* *Search Terms:* Keywords to find experts.
+* *Invitation Status:* (Sent, Accepted, Declined, No Response).
+* *Due Date:* The hard deadline for the review to be returned.
+* **Reviewer Scoring Fields:** * *Numerical Ratings:* (e.g., 1-5 for Originality, 1-5 for Methodology).
+* *Confidential Comments to Editor:* Hidden from the Author.
+* *Comments to Author:* Constructive feedback for the researcher.
+* **Conflict of Interest Confirmation:** A mandatory "I agree" checkbox for Reviewers before they see the full text.
+
+---
+
+### Phase 3: Decision & Revision (Editor & Author)
+This is where the "State Machine" transitions based on inputs.
+
+* **Editor Recommendation:** A field for the internal editor to suggest "Accept," "Reject," or "Revise."
+* **Decision Letter Template:** A rich-text editor pre-populated with reviewer comments and a signature line.
+* **Revision Notes:** When an author resubmits, a "Response to Reviewers" field becomes mandatory to explain what they
+changed.
+* **Version History:** A chronological log showing "Original Submission," "Revision 1," and "Revision 2."
+
+---
+
+### Phase 4: Production & Archiving (Admin Only)
+After the paper is accepted, it moves out of the editorial side and into the "factory" side.
+
+* **JATS XML Metadata:** Technical tags used for indexing in databases like PubMed.
+* **DOI Field:** The unique digital link assigned to the paper.
+* **Publication Date:** Both "Online First" and "Issue Date."
+* **License Type:** (e.g., Creative Commons CC-BY vs. Standard Copyright).
+
+---
+
+### Admin-Only "Global" Fields
+An Administrator or "Superuser" needs a high-level dashboard that tracks the **health of the journal**, not just one
+paper:
+* **Turnaround Time (TAT):** Average days from submission to first decision.
+* **Reviewer Database Stats:** Who is over-burdened? Who is declining too many invites?
+* **System Logs:** IP addresses and timestamps for every action (for fraud prevention).
+
+**Would you like me to generate a mockup of the "Author Submission" screen or the "Editor Dashboard" to visualize these
+fields?**
+
+
+
+To build a professional-grade clone of a medical journal system like **Editorial Manager**, you must move beyond a
+simple "file upload" site. This project requires a robust **State Machine**—a backend logic system where a submission
+moves through specific "gates" (e.g., from *Submitted* to *Under Review* to *Accepted*).
+
+Below is the consolidated roadmap using **HTML/Tailwind CSS** for the frontend, **PHP** for the server-side logic, and
+**MySQL** for the relational data.
+
+---
+
+### Phase 1: Database Architecture (MySQL)
+Before coding the UI, the relational "spine" of the journal must be set. Unlike a blog, a journal needs to track
+multiple versions of a single paper and link them to various roles.
+
+* **Users Table:** `id`, `name`, `email`, `password_hash`, `role` (Author, Reviewer, Editor, Admin),
+`specialty_keywords`.
+* **Manuscripts Table:** `id`, `author_id`, `editor_id`, `title`, `abstract`, `current_status` (Enum: `Draft`,
+`Submitted`, `Technical_Check`, `Under_Review`, `Decision_Pending`, `Accepted`, `Rejected`).
+* **Submissions/Versions Table:** `id`, `manuscript_id`, `version_number` (1, 2, 3), `file_path`, `cover_letter`,
+`timestamp`.
+* **Reviews Table:** `id`, `manuscript_id`, `reviewer_id`, `score_originality`, `score_methodology`,
+`comments_to_author`, `comments_to_editor`, `is_completed`.
+
+
+
+---
+
+### Phase 2: Frontend Layout & Auth (HTML / Tailwind)
+Medical systems need to be clean, "clinical," and high-density (lots of data in tables).
+
+* **Dashboard Logic:** Create a universal dashboard template where the sidebar links change based on the logged-in role.
+* *Author:* "Submit New Manuscript", "My Submissions".
+* *Editor:* "New Assignments", "In Review", "Final Decisions".
+* **Form Wizard:** Use Tailwind to create a multi-step submission form (Step 1: Title/Abstract -> Step 2: Authors ->
+Step 3: File Upload -> Step 4: Ethical Checkboxes).
+* **Status Badges:** Use Tailwind colors for manuscript states (e.g., `bg-yellow-100` for *Under Review*, `bg-green-100`
+for *Accepted*).
+
+---
+
+### Phase 3: The "State Machine" & File Handling (PHP)
+This is the core functional engine.
+
+* **Secure File Upload:** Use PHP’s `move_uploaded_file()`. Ensure files are renamed to a unique ID (e.g.,
+`MS_10293_V1.pdf`) and stored outside the public web root for security.
+* **Role-Based Access Control (RBAC):** Create a PHP middleware or include file that checks `session['role']` at the top
+of every page. If an Author tries to access `editor_decisions.php`, redirect them.
+* **The Transition Engine:** * When an Editor clicks "Send to Review," the PHP script updates the `manuscript_status` to
+`Under_Review` and inserts a new row into the `Reviews` table to trigger the reviewer's notification.
+* **Automated Emailer:** Use `PHPMailer` to send "Invitation to Review" emails with unique, time-sensitive tokens.
+
+---
+
+### Phase 4: Specialist Features (Medical Content)
+To make this a true "Editorial Manager" clone, you must include these specific fields and functions:
+
+1. **Metadata Extraction:** Use a PHP library (like `Smalot/PdfParser`) to try and pull the Title and Abstract
+automatically from the uploaded PDF to save the author time.
+2. **Double-Blind Toggle:** A setting in the Admin panel that hides author names in the Reviewer’s view of the database.
+3. **Conflict of Interest (COI) Gate:** A PHP check that prevents a reviewer from downloading a paper until they have
+clicked "I confirm no conflict of interest" (stored as a boolean in the `Reviews` table).
+4. **Revision Tracking:** Logic that allows an author to upload a "Response to Reviewers" document only if the status is
+set to `Major Revision` or `Minor Revision`.
+
+---
+
+### Phase 5: Admin & Production Tools
+* **Decision Letter Generator:** A PHP page that pulls the Reviewer comments from MySQL and populates them into a
+`textarea` for the Editor to edit before sending.
+* **Audit Trail:** A table that logs every action: `User X changed status of MS_Y from Submitted to Technical Check at
+[Timestamp]`. This is vital for medical accountability.
+* **Export for Indexing:** A script to generate a basic XML file containing the Title, Authors, and Abstract, which can
+be sent to indexing services (mimicking JATS XML).
+
+---
+
+### Summary Checklist for Development
+
+| Module | Tech | Key Feature |
+| :--- | :--- | :--- |
+| **Auth** | PHP Session | Role-based landing pages (Author vs. Editor). |
+| **Submission** | Tailwind / PHP | Multi-step wizard with file validation. |
+| **Review Engine** | MySQL / PHP | Linking Reviewers to Manuscripts with a due date. |
+| **Security** | PHP / SQL | Prepared statements to prevent SQL injection; PDF sanitization. |
+| **UI** | Tailwind CSS | Responsive tables with "Action" buttons (Approve/Reject). |
+
+**Next Step Recommendation:** Start by building the **MySQL Schema** first. Without a solid data relationship between
+Authors, Manuscripts, and Reviews, the PHP logic will become messy very quickly.

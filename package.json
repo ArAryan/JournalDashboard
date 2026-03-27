@@ -1,0 +1,16 @@
+{
+  "name": "journal-db-frontend",
+  "version": "1.0.0",
+  "description": "Advanced frontend for Editorial Manager",
+  "main": "index.js",
+  "scripts": {
+    "build:css": "tailwindcss -i ./src/css/style.css -o ./public/assets/css/main.css",
+    "build:ts": "tsc",
+    "watch:css": "tailwindcss -i ./src/css/style.css -o ./public/assets/css/main.css --watch",
+    "watch:ts": "tsc --watch"
+  },
+  "devDependencies": {
+    "tailwindcss": "^3.3.0",
+    "typescript": "^5.0.0"
+  }
+}
